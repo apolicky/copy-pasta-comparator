@@ -16,3 +16,10 @@ npm run package
 * click the additional menu `Views and More Actions...`
 * click `Install from VSIX`
 * point it to your newly packaged `copy-pasta...vsix`
+
+## Uninstall it
+
+* go to Extensions
+* search for `copy-pasta`
+* click on the settings menu item
+* uninstall it
