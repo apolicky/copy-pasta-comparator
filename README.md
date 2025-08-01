@@ -5,4 +5,14 @@ I have a use-case where we create a new version of our configuration this way. W
 
 ## Compile it
 
+```shell
+npm install
+npm run package
+```
+
 ## Use it
+
+* in VSCode, go to Extensions
+* click the additional menu `Views and More Actions...`
+* click `Install from VSIX`
+* point it to your newly packaged `copy-pasta...vsix`
