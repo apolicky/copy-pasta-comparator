@@ -1,0 +1,63 @@
+{
+  "name": "copy-pasta-comparator",
+  "displayName": "copy-pasta-comparator",
+  "description": "",
+  "version": "0.69.0",
+  "repository": {
+    "url": "https://github.com/apolicky/copy-pasta-comparator"
+  },
+  "engines": {
+    "vscode": "1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "copy-pasta-comparator.compareToPrevious",
+        "title": "🍝 compare to previous version"
+      },
+      {
+        "command": "copy-pasta-comparator.compareToSomeOther",
+        "title": "🍝 compare to some other version"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "copy-pasta-comparator.compareToPrevious",
+          "when": "explorerResourceIsFolder",
+          "group": "🍝"
+        },
+        {
+          "command": "copy-pasta-comparator.compareToSomeOther",
+          "when": "explorerResourceIsFolder",
+          "group": "🍝"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "package": "npm run lint && npm run compile && vsce package"
+  },
+  "devDependencies": {
+    "@types/mocha": "10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "1.90.0",
+    "@typescript-eslint/eslint-plugin": "8.31.1",
+    "@typescript-eslint/parser": "8.31.1",
+    "@vscode/test-cli": "0.0.11",
+    "@vscode/test-electron": "2.5.2",
+    "@vscode/vsce": "3.6.0",
+    "eslint": "9.25.1",
+    "typescript": "5.8.3"
+  }
+}
