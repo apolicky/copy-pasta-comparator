@@ -20,11 +20,20 @@ export function activate(context: vscode.ExtensionContext) {
         return dirsOrFiles;
     };
 
-    const openDiff = (oldFile: string, newFile?: string, type: "old ⟷ new" | "only new" | "only old" = "old ⟷ new") => {
-        const oldFileUri = vscode.Uri.file(oldFile);
-        const newFileUri = newFile ? vscode.Uri.file(newFile) : newFile;
+    const vscodeUri = (file: string) => {
+        if (file === "untitled:empty") {
+            return vscode.Uri.parse(file);
+        }
+        return vscode.Uri.file(file);
+    };
 
-        vscode.commands.executeCommand("vscode.diff", oldFileUri, newFileUri, `${path.basename(oldFile)} (${type})`, {
+    type OpenDiffProps = { oldFile: string; newFile: "untitled:empty" } | { oldFile: string; newFile: string } | { oldFile: "untitled:empty"; newFile: string };
+    const openDiff = (props: OpenDiffProps) => {
+        const { oldFile, newFile } = props;
+        const oldFileUri = vscodeUri(oldFile);
+        const newFileUri = vscodeUri(newFile);
+
+        vscode.commands.executeCommand("vscode.diff", oldFileUri, newFileUri, `${path.basename(oldFile)} (old ⟷ new)`, {
             preview: false,
             viewColumn: vscode.ViewColumn.Two,
         });
@@ -68,13 +77,13 @@ export function activate(context: vscode.ExtensionContext) {
         for (const oldFile of oldFiles) {
             const newFile = newFiles.find((f) => path.basename(f) === path.basename(oldFile));
             if (!newFile) {
-                openDiff(oldFile, oldFile, "only old");
+                openDiff({ oldFile, newFile: "untitled:empty" });
             } else {
-                openDiff(oldFile, newFile);
+                openDiff({ oldFile, newFile });
             }
         }
         for (const newFile of newFiles.filter((f) => !oldFilesNames.includes(path.basename(f)))) {
-            openDiff(newFile, newFile, "only new");
+            openDiff({ oldFile: "untitled:empty", newFile });
         }
     };
 
