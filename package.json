@@ -6,6 +6,7 @@
   "repository": {
     "url": "https://github.com/apolicky/copy-pasta-comparator"
   },
+  "publisher": "apolicky",
   "engines": {
     "vscode": "^1.100.0"
   },
@@ -46,7 +47,7 @@
     "watch": "tsc -watch -p ./",
     "lint": "eslint src",
     "test": "vscode-test",
-    "package": "npm run lint && npm run compile && vsce package"
+    "package": "vsce package"
   },
   "devDependencies": {
     "@types/mocha": "10.0.10",
