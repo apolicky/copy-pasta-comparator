@@ -16,6 +16,7 @@ npm run package
 * click the additional menu `Views and More Actions...`
 * click `Install from VSIX`
 * point it to your newly packaged `copy-pasta...vsix`
+* done (you might need to reload your window though 🤷)
 
 ## Uninstall it
 
