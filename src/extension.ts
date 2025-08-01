@@ -27,13 +27,24 @@ export function activate(context: vscode.ExtensionContext) {
         return vscode.Uri.file(file);
     };
 
+    const fileNameAndType = (oldFile: string, newFile: string) => {
+        if (oldFile === "untitled:empty") {
+            return { nameToShow: newFile, type: "created" };
+        } else if (newFile === "untitled:empty") {
+            return { nameToShow: oldFile, type: "deleted" };
+        }
+        return { nameToShow: oldFile, type: "old ⟷ new" };
+    };
+
     type OpenDiffProps = { oldFile: string; newFile: "untitled:empty" } | { oldFile: string; newFile: string } | { oldFile: "untitled:empty"; newFile: string };
     const openDiff = (props: OpenDiffProps) => {
         const { oldFile, newFile } = props;
         const oldFileUri = vscodeUri(oldFile);
         const newFileUri = vscodeUri(newFile);
 
-        vscode.commands.executeCommand("vscode.diff", oldFileUri, newFileUri, `${path.basename(oldFile)} (old ⟷ new)`, {
+        const { nameToShow, type } = fileNameAndType(oldFile, newFile);
+
+        vscode.commands.executeCommand("vscode.diff", oldFileUri, newFileUri, `${path.basename(nameToShow)} (${type})`, {
             preview: false,
             viewColumn: vscode.ViewColumn.Two,
         });
@@ -73,7 +84,6 @@ export function activate(context: vscode.ExtensionContext) {
         const newFiles = getAllDirsOrFiles(newVersionFolder, "file");
         const oldFilesNames = oldFiles.map((f) => path.basename(f));
 
-        // Step 4: Map files by relative path and show diffs
         for (const oldFile of oldFiles) {
             const newFile = newFiles.find((f) => path.basename(f) === path.basename(oldFile));
             if (!newFile) {
